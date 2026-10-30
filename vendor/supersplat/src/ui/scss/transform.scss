@@ -1,0 +1,32 @@
+@use 'colors.scss' as *;
+
+// transform section of the scene panel (layout from panel-section.scss)
+
+$height: 22px;
+
+#transform .panel-section-row > .pcui-vector-input {
+    gap: 10px;
+    height: $height;
+}
+
+#transform .panel-section-row > .pcui-numeric-input,
+#transform .panel-section-row > .pcui-vector-input > .pcui-numeric-input {
+    margin: 0px;
+    height: $height;
+    line-height: $height;
+
+    & > input {
+        padding: 0px;
+        margin: 0px 0px 0px 4px;
+        height: $height;
+    }
+}
+
+// scale is a single value: match the width of one vector component and keep it
+// aligned with the x column (the rest of the control column stays empty).
+// Placed after the numeric-input rules above, whose equal specificity would
+// otherwise zero the margin
+#transform .panel-section-row > .transform-scale {
+    width: calc((215px - 20px) / 3);
+    margin-right: calc(215px - (215px - 20px) / 3);
+}

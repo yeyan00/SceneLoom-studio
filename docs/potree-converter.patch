@@ -1,0 +1,130 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 614e9ae..9307728 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -48,6 +48,10 @@ add_subdirectory(${BROTLI_DIR})
+ target_link_libraries(PotreeConverter brotlienc-static)
+ target_link_libraries(PotreeConverter brotlidec-static)
+ 
++if (MSVC)
++	target_sources(PotreeConverter PRIVATE utf8.manifest)
++endif()
++
+ 
+ target_include_directories(PotreeConverter PRIVATE "./Converter/include")
+ target_include_directories(PotreeConverter PRIVATE "./Converter/modules")
+diff --git a/Converter/modules/LasLoader/LasLoader.cpp b/Converter/modules/LasLoader/LasLoader.cpp
+index 753d549..3c6e0d7 100644
+--- a/Converter/modules/LasLoader/LasLoader.cpp
++++ b/Converter/modules/LasLoader/LasLoader.cpp
+@@ -2,6 +2,8 @@
+ #include "LasLoader/LasLoader.h"
+ 
+ #include "laszip/laszip_api.h"
++#include <cmath>
++#include <stdexcept>
+ 
+ 
+ LasTypeInfo lasTypeInfo(int typeID) {
+@@ -69,7 +71,7 @@ LasTypeInfo lasTypeInfo(int typeID) {
+ }
+ 
+ 
+-LasHeader loadLasHeader(string path) {
++LasHeader loadLasHeader(string path, bool scanBounds) {
+ 	laszip_POINTER laszip_reader;
+ 	laszip_header* header;
+ 	laszip_point* point;
+@@ -79,7 +81,13 @@ LasHeader loadLasHeader(string path) {
+ 
+ 	laszip_create(&laszip_reader);
+ 	laszip_request_compatibility_mode(laszip_reader, request_reader);
+-	laszip_open_reader(laszip_reader, path.c_str(), &is_compressed);
++	if (laszip_open_reader(laszip_reader, path.c_str(), &is_compressed)) {
++		laszip_CHAR* error = nullptr;
++		laszip_get_error(laszip_reader, &error);
++		string message = "Cannot read LAS file " + path + ": " + (error ? error : "unknown error");
++		laszip_destroy(laszip_reader);
++		throw std::runtime_error(message);
++	}
+ 	laszip_get_header_pointer(laszip_reader, &header);
+ 
+ 	LasHeader result;
+@@ -122,8 +130,35 @@ LasHeader loadLasHeader(string path) {
+ 
+ 
+ 
++	if (scanBounds) {
++		cout << "Scanning actual point bounds: " << path << endl;
++		result.min = {Infinity, Infinity, Infinity};
++		result.max = {-Infinity, -Infinity, -Infinity};
++		for (int64_t i = 0; i < result.numPoints; ++i) {
++			double xyz[3];
++			if (laszip_read_point(laszip_reader) || laszip_get_coordinates(laszip_reader, xyz)) {
++				laszip_close_reader(laszip_reader);
++				laszip_destroy(laszip_reader);
++				throw std::runtime_error("Cannot read point " + to_string(i) + " in " + path);
++			}
++			for (double value : xyz) {
++				if (!std::isfinite(value)) throw std::runtime_error("Non-finite coordinate in " + path);
++			}
++			result.min.x = std::min(result.min.x, xyz[0]);
++			result.min.y = std::min(result.min.y, xyz[1]);
++			result.min.z = std::min(result.min.z, xyz[2]);
++			result.max.x = std::max(result.max.x, xyz[0]);
++			result.max.y = std::max(result.max.y, xyz[1]);
++			result.max.z = std::max(result.max.z, xyz[2]);
++		}
++		if (result.numPoints == 0) throw std::runtime_error("LAS file contains no points: " + path);
++		// Allow one source quantization step for subsequent coordinate rescaling.
++		double padding = std::max({std::abs(result.scale.x), std::abs(result.scale.y), std::abs(result.scale.z), 1e-6});
++		result.min = result.min + (-padding);
++		result.max = result.max + padding;
++	}
+ 	laszip_close_reader(laszip_reader);
+ 	laszip_destroy(laszip_reader);
+ 
+ 	return result;
+-}
+\ No newline at end of file
++}
+diff --git a/Converter/modules/LasLoader/LasLoader.h b/Converter/modules/LasLoader/LasLoader.h
+index 1fd499b..4885a3d 100644
+--- a/Converter/modules/LasLoader/LasLoader.h
++++ b/Converter/modules/LasLoader/LasLoader.h
+@@ -36,7 +36,7 @@ struct LasHeader {
+ 
+ LasTypeInfo lasTypeInfo(int typeID);
+ 
+-LasHeader loadLasHeader(string path);
++LasHeader loadLasHeader(string path, bool scanBounds = false);
+ 
+ 
+ 
+diff --git a/Converter/src/main.cpp b/Converter/src/main.cpp
+index 52d181b..1e73db1 100644
+--- a/Converter/src/main.cpp
++++ b/Converter/src/main.cpp
+@@ -207,7 +207,7 @@ Curated curateSources(vector<string> paths) {
+ 	auto parallel = std::execution::par;
+ 	for_each(parallel, paths.begin(), paths.end(), [&mtx, &sources](string path) {
+ 
+-		auto header = loadLasHeader(path);
++		auto header = loadLasHeader(path, true);
+ 		auto filesize = fs::file_size(path);
+ 
+ 		Vector3 min = { header.min.x, header.min.y, header.min.z };
+diff --git a/utf8.manifest b/utf8.manifest
+new file mode 100644
+index 0000000..f2fff69
+--- /dev/null
++++ b/utf8.manifest
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
++<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
++  <application xmlns="urn:schemas-microsoft-com:asm.v3">
++    <windowsSettings>
++      <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
++    </windowsSettings>
++  </application>
++</assembly>

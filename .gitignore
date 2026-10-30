@@ -1,0 +1,81 @@
+# Private requirements and local third-party tools
+/docs/.think
+/tools/PotreeConverter_2.1.5_x64_windows/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor and IDE settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Build output and caches
+/dist/
+/build/
+/out/
+/src-tauri/target/
+/src-tauri/gen/
+/release/
+/data/
+.cache/
+.vite/
+*.tsbuildinfo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs, coverage and temporary files
+*.log
+coverage/
+.coverage
+htmlcov/
+*.tmp
+*.temp
+
+/refs
+/.playwright-cli/
+/test-results/
+/playwright-report/
+/tools/plugins/*.json
+
+# Local datasets, project state and private keys
+*.las
+*.laz
+*.ply
+*.splat
+*.sog
+*.spz
+*.ssproj
+*.sceneloom/
+*.sceneloom.json
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+octree.bin
+hierarchy.bin
+*.pem
+*.key
+*.pfx
+*.p12

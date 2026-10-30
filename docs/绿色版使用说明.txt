@@ -1,0 +1,23 @@
+SceneLoom Studio — Windows x64 绿色版
+
+解压完整目录后双击 SceneLoom.exe。请勿只复制单个 EXE。
+无需安装 Node.js、Python 或 Rust。程序依赖系统 Microsoft Edge WebView2 Runtime。
+Windows 11 通常已自带；缺少时需先安装微软 WebView2 Evergreen Runtime。
+
+“打开数据”可以通过系统文件/目录选择器选择，也可以直接输入本地路径。
+支持 Potree metadata.json/目录、LAS/LAZ（转换）、Gaussian PLY、SSProj 和 3D Tiles tileset.json。
+工程浏览器按点云、3DGS、3D Tiles 分组，可添加多份数据，切换点云时保留各自编辑会话。
+“项目数据”标题右侧的保存按钮可保存多数据项目（*.sceneloom.json），重新打开时恢复数据引用。
+多数据项目只保存引用，请保留关联数据和各数据集的编辑工程；GS 编辑仍使用“保存 GS 工程”。
+数据原地读取，不要求复制进软件目录。LAS 转换和项目保存沿用软件内的数据目录设置。
+复制 3D Tiles 时需要携带其引用的全部瓦片、纹理及子目录。
+
+data 目录自动创建，保存软件设置、视图清单、日志和 WebView2 缓存。
+请解压到当前用户可写的目录。迁移软件时可连同 data 目录复制；外部数据路径变化后需要重新打开。
+更新程序时保留 data 目录。请勿将正在使用的 data 目录加入分发压缩包。
+
+3DGS 编辑要求系统 WebView2 与 GPU 支持 WebGPU。点云和 3D Tiles 使用 WebGL。
+工具箱外部工具可放在 tools/plugins，通过工具清单登记。已携带 PotreeConverter 与许可证。
+关闭主窗口会关闭本地后台服务及其子进程；正在执行的转换应先等待完成。
+
+此版本没有安装程序、自动更新或代码签名。首次运行可能显示 Windows 的未签名应用提示。

@@ -1,0 +1,61 @@
+{
+  "name": "sceneloom-studio",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.mjs",
+    "build": "vite build",
+    "test": "node tests/runner/run.mjs quick",
+    "preview": "node server/index.mjs --production",
+    "test:unit": "node tests/runner/run.mjs unit",
+    "test:integration": "node tests/runner/run.mjs integration",
+    "test:related": "node tests/runner/run.mjs related",
+    "test:e2e": "node tests/runner/run.mjs e2e",
+    "test:converter": "node tests/runner/run.mjs converter",
+    "test:release": "node tests/runner/run.mjs release",
+    "test:workspace": "node tests/runner/run.mjs workspace",
+    "test:package": "node tests/runner/run.mjs package",
+    "test:brush": "node tests/runner/run.mjs brush",
+    "test:forestry": "node tests/runner/run.mjs forestry",
+    "test:chm": "node tests/runner/run.mjs chm",
+    "test:labels": "node tests/runner/run.mjs labels",
+    "test:gaussian": "node tests/runner/run.mjs gaussian",
+    "test:gaussian:public": "node tests/runner/run.mjs gaussian --public",
+    "sample:gaussian": "node tests/fixtures/download-gaussian.mjs",
+    "test:chm-performance": "node tests/performance/chm-benchmark.mjs",
+    "test:performance": "node tests/performance/editor-benchmark.mjs",
+    "test:tiles": "node tests/runner/run.mjs tiles",
+    "test:tiles:public": "node tests/runner/run.mjs tiles --public",
+    "sample:tiles": "node tests/fixtures/download-tiles.mjs",
+    "build:portable": "node scripts/build-portable.mjs",
+    "test:desktop": "node tests/desktop/portable-check.mjs"
+  },
+  "dependencies": {
+    "@playcanvas/pcui": "6.1.4",
+    "@playcanvas/splat-transform": "3.10.2",
+    "@tauri-apps/api": "^2.12.4",
+    "@tauri-apps/plugin-dialog": "^2.8.4",
+    "3d-tiles-renderer": "0.5.3",
+    "i18next": "26.5.4",
+    "i18next-browser-languagedetector": "8.2.1",
+    "i18next-http-backend": "4.0.4",
+    "lucide-react": "^0.468.0",
+    "mediabunny": "1.62.0",
+    "playcanvas": "2.23.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0",
+    "vite": "^7.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@tauri-apps/cli": "^2.12.4",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.9.10",
+    "sass": "^1.106.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}
