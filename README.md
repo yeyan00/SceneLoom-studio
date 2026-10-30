@@ -18,15 +18,15 @@ These are screenshots of the running application. All point clouds are generated
 
 Workspace:
 
-![SceneLoom workspace](docs/screenshots/01-workspace.png)
+![SceneLoom workspace](docs/screenshots/en/01-workspace.png)
 
 Synthetic terrain in RGB:
 
-![Synthetic point cloud in RGB](docs/screenshots/02-synthetic-rgb.png)
+![Synthetic point cloud in RGB](docs/screenshots/en/02-synthetic-rgb.png)
 
 Synthetic terrain with demonstration classifications:
 
-![Synthetic point cloud classifications](docs/screenshots/03-synthetic-classification.png)
+![Synthetic point cloud classifications](docs/screenshots/en/03-synthetic-classification.png)
 
 ## Quick start
 
@@ -70,7 +70,7 @@ Most detailed implementation guides are currently in Chinese.
 - [3DGS integration](docs/3DGS显示与视图框架.md), [3D Tiles](docs/3DTiles加载.md)
 - [Windows desktop builds](docs/desktop-build.md), [tool registration](tools/plugins/README.md)
 
-To reproduce the screenshots, run `npm run build`, then `node scripts/capture-readme.mjs`. This requires Playwright and a local Chrome installation. The script uses generated data and isolated settings, then removes temporary data.
+To reproduce the screenshots, run `npm run build`, then `node scripts/capture-readme.mjs --en`. This requires Playwright and a local Chrome installation. The script uses generated data and isolated settings, then removes temporary data.
 
 ## Publishing and privacy
 
