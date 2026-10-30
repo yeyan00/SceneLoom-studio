@@ -81,7 +81,7 @@ try {
   await page.getByLabel('Data path', { exact: true }).fill(potree);
   await page.getByRole('dialog').getByRole('button', { name: 'Open', exact: true }).click();
   await page.waitForFunction(() => [...document.querySelectorAll('canvas[data-diagnostics]')].some(e => JSON.parse(e.dataset.diagnostics || '{}').visiblePoints > 0), null, { timeout: 30000 });
-  assert.equal(await page.getByTestId('pointcloud-classes').isVisible(), false);
+  assert.equal(await page.getByTestId('pointcloud-classes').isVisible(), true);
   await page.getByRole('button', { name: 'Point cloud', exact: true }).click();
   assert.ok(await page.getByTestId('pointcloud-classes').isVisible());
   await page.getByRole('button', { name: 'Selection tools', exact: true }).click();

@@ -831,7 +831,6 @@ function App() {
                   </Button>
                 </div>
               </div>
-              <small>{t("工程")}</small>
             </div>
           )}
           {tab === "view" ? (
@@ -863,7 +862,6 @@ function App() {
                   {t("返回点云视图")}
                 </Button>
               </div>
-              <small>{t("视图导航")}</small>
             </div>
           ) : tab === "render" ? (
             <div className="ribbon-group">
@@ -925,7 +923,6 @@ function App() {
                   />
                 </label>
               </fieldset>
-              <small>{t("点云渲染")}</small>
             </div>
           ) : tab === "edit" ? (
             <>
@@ -942,7 +939,6 @@ function App() {
                     {t("管理标签集")}
                   </Button>
                 </div>
-                <small>{t("分类标准")}</small>
               </div>
               <div className="ribbon-group">
                 <div className="ribbon-actions">
@@ -989,7 +985,6 @@ function App() {
                     }}
                   />
                 </div>
-                <small>{t("贯穿式选择")}</small>
               </div>
               <div className="ribbon-group">
                 <div className="ribbon-actions">
@@ -1019,7 +1014,6 @@ function App() {
                     </Button>
                   </div>
                 </div>
-                <small>{t("编辑")}</small>
               </div>
               <div className="ribbon-group">
                 <div className="ribbon-actions ribbon-stack">
@@ -1044,7 +1038,6 @@ function App() {
                     {t("重做")}
                   </Button>
                 </div>
-                <small>{t("历史")}</small>
               </div>
             </>
           ) : PluginRibbon ? (

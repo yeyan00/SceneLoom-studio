@@ -47,7 +47,6 @@ export function ViewRibbon({
             {t("日志面板")}
           </RibbonButton>
         </div>
-        <small>{t("面板显示")}</small>
       </div>
     </>
   );

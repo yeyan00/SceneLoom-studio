@@ -211,7 +211,6 @@ function Ribbon() {
             </RibbonButton>
           </div>
         </div>
-        <small>{t("单木实例")}</small>
       </div>
       <div className="ribbon-group">
         <div className="ribbon-actions">
@@ -233,7 +232,6 @@ function Ribbon() {
             </RibbonButton>
           ))}
         </div>
-        <small>{h.current ? h.current.name : t("请新建或选择单木")}</small>
       </div>
       <div className="ribbon-group">
         <div className="ribbon-actions">
@@ -268,7 +266,6 @@ function Ribbon() {
             {t("重做")}
           </button>
         </div>
-        <small>{t("人工单木编辑")}</small>
       </div>
     </>
   );
